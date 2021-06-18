@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  app:
+    container_name: spring-boot-fullcycle
+    image: saulo1bas/fullcycle-app
+    restart: always
+    networks:
+      - javinhalives
+    ports:
+    - 9000:9000
+    depends_on:
+      - db
+
+  proxy:
+    container_name: nginx-proxy
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+    - 8080:80
+    networks:
+      - javinhalives
+    depends_on:
+      - app
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    ports:
+    - 3306:3306
+    environment:
+      - MYSQL_DATABASE=test
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - javinhalives
+
+
+networks:
+  javinhalives:
+    driver: bridge
