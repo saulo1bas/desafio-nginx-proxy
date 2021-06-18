@@ -3,7 +3,10 @@ version: '3.7'
 services:
   app:
     container_name: spring-boot-fullcycle
-    image: saulo1bas/fullcycle-app
+    build:
+      context: ./spring
+      dockerfile: Dockerfile
+    command: dockerize -wait tcp://db:3306
     restart: always
     networks:
       - javinhalives
