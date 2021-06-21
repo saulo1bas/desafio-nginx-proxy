@@ -6,7 +6,7 @@ services:
     build:
       context: ./spring
       dockerfile: Dockerfile
-    command: cd usr/local/bin && dockerize -wait tcp://db:3306
+    entrypoint: bash -c "cd usr/local/bin && dockerize -wait tcp://db:3306 -timeout 30s && cd / &&  cnb/process/web"
     networks:
       - javinhalives
     ports:
